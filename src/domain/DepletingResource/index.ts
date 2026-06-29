@@ -8,8 +8,14 @@ export interface IResourceStateActions {
   setFuel: (newFuel: number) => void;
 }
 
+// Amount of time take to burn one unit fuel in ms
+const fuelUnitTime = 30 * 1000;
+
+// Depletion rate: 1 unit per five seconds
+const rate = 1 / fuelUnitTime;
+
 const initialResourceState: IResourceState = {
-  fuel: 50,
+  fuel: 10,
   maxFuel: 100,
   updatedAt: new Date(),
 };
@@ -29,7 +35,6 @@ const getCurrentState = (
   delta: number, // in milliseconds
 ): IResourceState => {
   const oldFuel = state.fuel;
-  const rate = 1 / (5 * 1000);
 
   const timeDelta = delta;
 
@@ -43,10 +48,15 @@ const getCurrentState = (
   };
 };
 
+const getPendingTime = (remainingFuel: IResourceState["fuel"]) => {
+  return remainingFuel * fuelUnitTime;
+};
+
 const DepletingResourceDomain = {
   initialResourceState,
   setFuel,
   getCurrentState,
+  getPendingTime,
 };
 
 export default DepletingResourceDomain;

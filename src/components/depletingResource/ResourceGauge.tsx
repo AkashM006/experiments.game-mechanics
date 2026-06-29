@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useDepletingResourceStore } from "../../state/depletingResourceStore";
+import { useEffect, useRef } from "react";
+import { useDepletingResourceStore } from "../../state/DepletingResourceStore";
 
 const ResourceGauge = () => {
   const fuel = useDepletingResourceStore((state) => state.fuel);
@@ -7,15 +7,20 @@ const ResourceGauge = () => {
 
   const deplete = useDepletingResourceStore((state) => state.depletionTick);
 
-  const fuelPercentage = Math.round((fuel / maxFuel) * 100);
+  const fuelPercentage = ((fuel / maxFuel) * 100).toFixed(2);
+
+  const lastTickTime = useRef<number | null>(null);
 
   useEffect(() => {
     let frameId: number;
-    let start: number = 0;
+    lastTickTime.current = 0;
 
     const tick = (timestamp: DOMHighResTimeStamp) => {
-      deplete(timestamp - start);
-      start = timestamp;
+      const delta = timestamp - lastTickTime.current!;
+      if (delta >= 1000) {
+        deplete(delta);
+        lastTickTime.current = timestamp;
+      }
       frameId = requestAnimationFrame(tick);
     };
 
@@ -39,7 +44,7 @@ const ResourceGauge = () => {
 
       <div className="h-4 overflow-hidden rounded-full bg-zinc-800">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-500"
+          className="h-full rounded-full bg-linear-to-r from-cyan-400 to-blue-500 transition-all duration-500"
           style={{ width: `${fuelPercentage}%` }}
         ></div>
       </div>
