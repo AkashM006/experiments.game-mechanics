@@ -6,6 +6,7 @@ import DepletingResourceDomain, {
 
 interface IDepletingResourceStore {
   depletionTick: (delta: number) => void;
+  setGeneratorStatus: (running: boolean) => void;
 }
 
 type DepletingResourceStore = IResourceState &
@@ -23,9 +24,17 @@ export const useDepletingResourceStore = create<DepletingResourceStore>()(
         };
       });
     },
+    setGeneratorStatus(running) {
+      set(() => ({
+        generatorRunning: running,
+        updatedAt: new Date(),
+      }));
+    },
     depletionTick(delta: number) {
       set((state) => {
         const newState = DepletingResourceDomain.getCurrentState(state, delta);
+
+        if (newState.fuel === 0) newState.generatorRunning = false;
 
         return {
           ...newState,

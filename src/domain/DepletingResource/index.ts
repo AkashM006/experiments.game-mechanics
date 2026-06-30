@@ -2,6 +2,7 @@ export interface IResourceState {
   fuel: number;
   maxFuel: number;
   updatedAt: Date;
+  generatorRunning: boolean;
 }
 
 export interface IResourceStateActions {
@@ -18,6 +19,7 @@ const initialResourceState: IResourceState = {
   fuel: 10,
   maxFuel: 100,
   updatedAt: new Date(),
+  generatorRunning: true,
 };
 
 const setFuel = (newFuel: number, state: IResourceState): number => {

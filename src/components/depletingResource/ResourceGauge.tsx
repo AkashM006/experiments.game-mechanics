@@ -1,38 +1,13 @@
-import { useEffect, useRef } from "react";
 import { useDepletingResourceStore } from "../../state/DepletingResourceStore";
 
 const ResourceGauge = () => {
   const fuel = useDepletingResourceStore((state) => state.fuel);
   const maxFuel = useDepletingResourceStore((state) => state.maxFuel);
 
-  const deplete = useDepletingResourceStore((state) => state.depletionTick);
-
   const fuelPercentage = ((fuel / maxFuel) * 100).toFixed(2);
 
-  const lastTickTime = useRef<number | null>(null);
-
-  useEffect(() => {
-    let frameId: number;
-    lastTickTime.current = 0;
-
-    const tick = (timestamp: DOMHighResTimeStamp) => {
-      const delta = timestamp - lastTickTime.current!;
-      if (delta >= 1000) {
-        deplete(delta);
-        lastTickTime.current = timestamp;
-      }
-      frameId = requestAnimationFrame(tick);
-    };
-
-    requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
-  }, [deplete]);
-
   return (
-    <div className="w-80 mx-auto rounded-xl border-2 border-cyan-500/50 bg-zinc-900 p-4 shadow-lg shadow-cyan-500/10">
+    <div className="w-80 mt-5 mx-auto rounded-xl border-2 border-cyan-500/50 bg-zinc-900 p-4 shadow-lg shadow-cyan-500/10">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
           ⛽ Fuel
