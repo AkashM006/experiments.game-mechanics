@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import DepletingResourceDomain from "../../domain/DepletingResource";
+import DepletingResourceDomain from "../../../domain/DepletingResource";
 import { useDepletingResourceStore } from "../../state/DepletingResourceStore";
-import Utils from "../../utils";
+import Utils from "../../../utils";
 
 const ResourceCountDown = () => {
   const remainingFuel = useDepletingResourceStore((state) => state.fuel);

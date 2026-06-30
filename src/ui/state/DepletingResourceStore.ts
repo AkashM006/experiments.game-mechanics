@@ -1,7 +1,6 @@
 import { create } from "zustand";
-import DepletingResourceDomain, {
-  type IResourceState,
-} from "../domain/DepletingResource";
+import type { IResourceState } from "../../domain/DepletingResource";
+import DepletingResourceDomain from "../../domain/DepletingResource";
 
 interface IDepletingResourceStore {
   depletionTick: (delta: number) => void;
