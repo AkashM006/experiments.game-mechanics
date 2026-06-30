@@ -10,7 +10,7 @@ const ResourceGauge = () => {
     <div className="w-80 mt-5 mx-auto rounded-xl border-2 border-cyan-500/50 bg-zinc-900 p-4 shadow-lg shadow-cyan-500/10">
       <div className="mb-2 flex items-center justify-between">
         <span className="text-xs font-bold uppercase tracking-widest text-cyan-400">
-          ⛽ Fuel
+          ⛽ Fuel ({fuel.toFixed(2)} / {maxFuel})
         </span>
         <span className="font-mono text-xl font-bold text-white">
           {fuelPercentage}%

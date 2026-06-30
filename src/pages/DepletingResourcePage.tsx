@@ -3,6 +3,7 @@ import ResourceCountDown from "../components/depletingResource/ResourceCountDown
 import ResourceGauge from "../components/depletingResource/ResourceGauge";
 import GeneratorToggle from "../components/depletingResource/GeneratorToggle";
 import useResourceDepletion from "../hooks/useResourceDepletion";
+import ResourceActions from "../components/depletingResource/ResourceActions";
 
 const DepletingResourcePage = () => {
   useResourceDepletion();
@@ -16,6 +17,7 @@ const DepletingResourcePage = () => {
         <ResourceGauge />
         <ResourceCountDown />
         <GeneratorToggle />
+        <ResourceActions />
       </div>
     </div>
   );

@@ -1,27 +1,22 @@
 import { create } from "zustand";
 import DepletingResourceDomain, {
   type IResourceState,
-  type IResourceStateActions,
 } from "../domain/DepletingResource";
 
 interface IDepletingResourceStore {
   depletionTick: (delta: number) => void;
   setGeneratorStatus: (running: boolean) => void;
+  addFuel: (delta: number) => void;
 }
 
-type DepletingResourceStore = IResourceState &
-  IResourceStateActions &
-  IDepletingResourceStore;
+type DepletingResourceStore = IResourceState & IDepletingResourceStore;
 
 export const useDepletingResourceStore = create<DepletingResourceStore>()(
   (set) => ({
     ...DepletingResourceDomain.initialResourceState,
-    setFuel(newFuel) {
+    addFuel(delta) {
       set((state) => {
-        const result = DepletingResourceDomain.setFuel(newFuel, state);
-        return {
-          fuel: result,
-        };
+        return DepletingResourceDomain.addFuel(delta, state);
       });
     },
     setGeneratorStatus(running) {

@@ -5,9 +5,19 @@ export interface IResourceState {
   generatorRunning: boolean;
 }
 
-export interface IResourceStateActions {
-  setFuel: (newFuel: number) => void;
+interface IResourceStateActions {
+  setFuel: (newFuel: number, state: IResourceState) => void;
+  addFuel: (delta: number, state: IResourceState) => IResourceState;
+  getCurrentState: (
+    state: IResourceState,
+    delta: number, // in milliseconds
+  ) => IResourceState;
+  getPendingTime: (remainingFuel: IResourceState["fuel"]) => number;
 }
+
+type ResourceDomain = {
+  initialResourceState: IResourceState;
+} & IResourceStateActions;
 
 // Amount of time take to burn one unit fuel in ms
 const fuelUnitTime = 30 * 1000;
@@ -16,7 +26,7 @@ const fuelUnitTime = 30 * 1000;
 const rate = 1 / fuelUnitTime;
 
 const initialResourceState: IResourceState = {
-  fuel: 10,
+  fuel: 50,
   maxFuel: 100,
   updatedAt: new Date(),
   generatorRunning: true,
@@ -50,15 +60,28 @@ const getCurrentState = (
   };
 };
 
-const getPendingTime = (remainingFuel: IResourceState["fuel"]) => {
+const getPendingTime = (remainingFuel: IResourceState["fuel"]): number => {
   return remainingFuel * fuelUnitTime;
 };
 
-const DepletingResourceDomain = {
+const addFuel = (delta: number, state: IResourceState): IResourceState => {
+  const newState = { ...state };
+
+  const newFuel = newState.fuel + delta;
+
+  if (newFuel < 0) newState.fuel = 0;
+  else if (newFuel > newState.maxFuel) newState.fuel = newState.maxFuel;
+  else newState.fuel = newFuel;
+
+  return newState;
+};
+
+const DepletingResourceDomain: ResourceDomain = {
   initialResourceState,
   setFuel,
   getCurrentState,
   getPendingTime,
+  addFuel,
 };
 
 export default DepletingResourceDomain;
