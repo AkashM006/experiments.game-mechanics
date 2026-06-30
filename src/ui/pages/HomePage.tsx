@@ -6,6 +6,11 @@ const ROUTES = [
     name: "Depleting resource",
     link: "/depleting-resource",
   },
+  {
+    id: 2,
+    name: "Layout",
+    link: "/layout",
+  },
 ];
 
 const HomePage = () => {
@@ -13,7 +18,7 @@ const HomePage = () => {
     <div className="text-center mt-2">
       <h1 className="text-4xl">Learning Game Mechanics</h1>
 
-      <div className="mt-5 flex flex-col items-center">
+      <div className="mt-10 flex flex-col gap-2 items-center">
         {ROUTES.map((route) => (
           <Card key={route.id} title={route.name} url={route.link} />
         ))}

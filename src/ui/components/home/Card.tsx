@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const Card = ({ title, url }: { title: string; url: string }) => {
   return (
-    <div className="max-w-md rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-lg transition hover:border-gray-600 hover:shadow-xl">
+    <div className="max-w-md min-w-md rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-lg transition hover:border-gray-600 hover:shadow-xl">
       <h2 className="mb-3 text-lg font-semibold text-white">{title}</h2>
 
       <Link
