@@ -11,6 +11,11 @@ const ROUTES = [
     name: "Layout",
     link: "/layout",
   },
+  {
+    id: 3,
+    name: "Chat UI",
+    link: "/chat-ui",
+  },
 ];
 
 const HomePage = () => {

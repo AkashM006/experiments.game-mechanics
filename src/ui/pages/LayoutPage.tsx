@@ -8,7 +8,7 @@ const Body = () => {
       <div className="border w-[30%]">Side bar</div>
       <div className="border flex-1 overflow-auto">
         <h1>Body</h1>
-        <div className="h-[1220px] bg-amber-900"></div>
+        <div className="h-300 bg-amber-900"></div>
       </div>
     </div>
   );
